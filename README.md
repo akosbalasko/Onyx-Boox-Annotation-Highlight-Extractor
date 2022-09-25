@@ -1,4 +1,4 @@
-## Obsidian Sample Plugin
+## Onyx Boox Annotation & Highlight Extractor 
 
 This is a sample plugin for Obsidian (https://obsidian.md).
 
