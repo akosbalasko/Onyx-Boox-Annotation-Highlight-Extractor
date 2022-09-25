@@ -1,73 +1,94 @@
 ## Onyx Boox Annotation & Highlight Extractor 
 
-This is a sample plugin for Obsidian (https://obsidian.md).
-
-This project uses Typescript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in Typescript Definition format, which contains TSDoc comments describing what it does.
-
-**Note:** The Obsidian API is still in early alpha and is subject to change at any time!
-
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Changes the default font color to red using `styles.css`.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open Sample Modal" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
-
-### First time developing plugins?
-
-Quick starting guide for new plugin devs:
-
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
-
-### Releasing new releases
-
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
-
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
-
-### Adding your plugin to the community plugin list
-
-- Check https://github.com/obsidianmd/obsidian-releases/blob/master/plugin-review.md
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
-
-### How to use
-
-- Clone this repo.
-- `npm i` or `yarn` to install dependencies
-- `npm run dev` to start compilation in watch mode.
-
-### Manually installing the plugin
-
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
-
-### Improve code quality with eslint (optional)
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- To use eslint with this project, make sure to install eslint from terminal:
-  - `npm install -g eslint`
-- To use eslint to analyze this project use this command:
-  - `eslint main.ts`
-  - eslint will then create a report with suggestions for code improvement by file and line number.
-- If your source code is in a folder, such as `src`, you can use eslint with this command to analyze all files in that folder:
-  - `eslint .\src\`
+With this plugin, you can extract your highlights and annotations taken in your Onyx Boox eink device, and convert them to classic Zettelkasten notes. 
 
 
-### API Documentation
+## What will you get? 
 
-See https://github.com/obsidianmd/obsidian-api
+- If you have read a book in your Onyx Boox, this plugin will generate a `Reference Note` with its metadata (title and author)
+- If you highlight a text within the book, this text is going to be a `Literature Note` linked to the Reference note and having metainfo (creation time, page number, section title, book title) stored in the frontmatter.
+- If you annotate the highlighted text, the annotation will be a `Permanent Note` linked to the Literature note and the Reference note as well. 
+
+The main benefit is that you can write your thoughts directly into the book what you currently read, and the plugin will integrate them into your Second Brain. 
+
+## Current note formats:
+
+The plugin generated the different notes as follows: 
+
+### Reference notes: 
+
+```
+
+Title: <your book's title>
+Authors: <author>
+
+```
+
+### Literature notes:
+```
+---
+_Source_: <Book title>
+
+_Section_: <Section's title>
+
+_Page Number_: <Page number>
+
+_Time_: <highlight creation time>
+
+---
+
+> <the highlighted text>
+
+---
+
+_Reference Note_: [[${referenceNoteId}]]
+
+---
+```
+
+
+
+### Permanent notes: 
+
+```
+---
+
+tags: 
+  - <book_title_with_underscores_instead_of_spaces>
+
+---
+
+<your annotation>
+
+---
+
+_Literature Note_: <link_to_your_literature_note>
+_Reference Note_: <link_to_your_reference_note>
+
+---
+```
+## Export and extract process from Onyx Boox to Obsidian 
+
+As Onyx Boox provides Android-based eink devices, Obsidian can be installed directly onto them via Google Play. Then, after you set your vault, your sync optionally, and installed and enabled this plugin, the process would be as follows:
+
+1. Export your annotations from your epub locally. You can do this by tapping 'TOC' in the book, then navigate to Annotations in the menu below, select all notes and highlighs, then tap the export icon and select 'Export to local storage'.
+2. Then as the appearing pop-up allowing you, 'jump' to that folder in where the exported file has been created. 
+3. Change the exported file's extension from txt to md in order to make it visible in Obsidian. You can do it by long tapping the file itself, and tapping 'Rename' button. 
+4. Then move the file to the vault's folder. 
+5. Then open Obsidian
+6. Long-tap the exported file, and select 'Extract Onyx file'.
+7. You're done!
+
+If you don't want to install Obsidian onto your Onyx Boox device, you can send the annotation export to yourself via mail, download it to your local machine, change it's extension and put into your Obsidian vault there. 
+
+## Roadmap & Known 'issues'
+
+- The plugin currently generates the files in the root folder of the vault. It can be customized in the upcoming release. 
+- No templates-feature still. It will be added soon.
+- Tags in Permanent notes are hardcoded, they can be customized in the future.
+
+## Feedback, Appreciation, Donation:
+If you have an idea on how to improve the plugin or face any problems, feel free to raise an issue, or even contribute!
+If this plugin makes your like easier, pleaes consider giving a star here on github, or supporting me via <a href="https://www.buymeacoffee.com/akosbalasko" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-yellow.png" alt="Buy Me A Coffee" height="41" width="174"></a>.
+
+Thanks a lot! 

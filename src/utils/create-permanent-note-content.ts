@@ -6,7 +6,6 @@ export const createPermanentNoteContent = (noteDetails: ReadingNoteDetails,liter
 		: `---
 
 tags: 
-  - permanent_note
   - ${referenceInfo.title.replace(/ /g,'_')}
 
 ---
