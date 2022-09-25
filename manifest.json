@@ -1,7 +1,7 @@
 {
 	"id": "onyx-boox-extractor",
 	"name": "Onyx Boox Annotation & Highlight Extractor",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"minAppVersion": "0.12.0",
 	"description": "This plugin extracts annotations and highlights files exported from Onyx Boox tablets, and converts them to reference, literature and permanent notes fitting to the Zettelkasten method.",
 	"author": "Akos Balasko",
