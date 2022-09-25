@@ -38,7 +38,7 @@ _Time_: <highlight creation time>
 
 ---
 
-_Reference Note_: [[${referenceNoteId}]]
+_Reference Note_: <link_to_the_reference_note>
 
 ---
 ```
