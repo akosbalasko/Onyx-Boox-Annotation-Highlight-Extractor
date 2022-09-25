@@ -28,11 +28,8 @@ Authors: <author>
 ```
 ---
 _Source_: <Book title>
-
 _Section_: <Section's title>
-
 _Page Number_: <Page number>
-
 _Time_: <highlight creation time>
 
 ---
