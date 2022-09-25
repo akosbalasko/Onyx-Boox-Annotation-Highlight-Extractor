@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-sample-plugin",
-	"version": "1.0.1",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"name": "onyx-boox-extractor",
+	"version": "1.0.2",
+	"description": "Onyx Boox Annotation & Highlight Extractor",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
@@ -20,5 +20,8 @@
 		"obsidian": "latest",
 		"tslib": "2.3.1",
 		"typescript": "4.4.4"
+	},
+	"dependencies": {
+		"nanoid": "^3.3.4"
 	}
 }
