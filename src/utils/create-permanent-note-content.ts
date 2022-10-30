@@ -1,7 +1,7 @@
 import { ReadingNoteDetails, ReferenceNoteDetails } from "src/models";
 
 export const createPermanentNoteContent = (noteDetails: ReadingNoteDetails,literatureFileName: string, referenceNoteId: string, referenceInfo: ReferenceNoteDetails): string => {
-	return (noteDetails.annotation?.replace(/\n/g,'').trim() === '')
+	return (!noteDetails.annotation || noteDetails.annotation.replace(/\n/g,'').trim() === '')
 		? undefined
 		: `---
 

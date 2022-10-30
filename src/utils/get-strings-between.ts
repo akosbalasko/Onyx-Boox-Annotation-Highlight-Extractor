@@ -3,7 +3,7 @@ export const getStringBetween = (text: string, after: string, before: string): s
 	const textArray =text.split(after);
 
 	return (textArray.length > 0)
-		? textArray[1].split(before)[0]
+		? textArray[0].split(before)[0]
 		: ''
 
 }
