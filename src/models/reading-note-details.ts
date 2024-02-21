@@ -5,4 +5,5 @@ export interface ReadingNoteDetails {
 	originalText?: string;
 	annotation?: string;
 	raw?: string
+	isoCreationTime?: string
 }
