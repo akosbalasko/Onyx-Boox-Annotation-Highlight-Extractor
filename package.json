@@ -1,7 +1,7 @@
 {
-	"name": "onyx-boox-extractor-template",
-	"version": "1.2.0",
-	"description": "Onyx Boox Annotation & Highlight Extractor With Template Support",
+	"name": "onyx-boox-extractor",
+	"version": "1.1.0",
+	"description": "Onyx Boox Annotation & Highlight Extractor",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
@@ -22,7 +22,6 @@
 		"typescript": "4.4.4"
 	},
 	"dependencies": {
-		"nanoid": "^3.3.4",
-		"@popperjs/core": "^2.11.6"
+		"nanoid": "^3.3.4"
 	}
 }
