@@ -1,5 +1,5 @@
-import { createReferenceNote } from "./create-reference-note";
-import { createZettelNotes } from "./create-zettel-notes";
+import {createReferenceNote, createReferenceNoteWithTemplater} from "./create-reference-note";
+import {createZettelNotes, createZettelNotesWithTemplater} from "./create-zettel-notes";
 import { OnyxBooxExtractorSettings, ReadingNoteDetails, ReferenceNoteDetails } from "./models";
 import { parseNote } from "./parse-onyx-note";
 import { isVersion2 } from "./utils/is-version-2";
@@ -23,17 +23,26 @@ const extractOnyxReadingNotesV1 = async (vault: any, settings: OnyxBooxExtractor
 	const referenceInfo: ReferenceNoteDetails = {
 		title,
 		authors,
+		titleSlug: title.replace(/\s/g,'_')
 	};
 	const readingNotesArray = readingNotesStringArray.map(note => {return {raw: note}});
 	const referenceNoteId = await createReferenceNote(vault, settings, referenceInfo);
 	for (const readingNote of readingNotesArray){
-		const noteDetails = parseNote(readingNote);
+		let noteDetails
+		try {
+			noteDetails = parseNote(readingNote);
+		} catch (e) {
+			console.error('Error parsing note', e, readingNote);
+			continue;
+		}
 		await createZettelNotes(vault, settings, referenceNoteId, referenceInfo, noteDetails);
 		
 	}
 }
 
 const extractOnyxReadingNotesV2 = async (vault: any, settings: OnyxBooxExtractorSettings, fileContent: string) => {
+	// @ts-ignore
+	const templater = app.plugins.getPlugin('templater-obsidian');
 
 	const NOTE_SEPARATOR = '-------------------';
 	const mainMetadata = fileContent.split('\n')[0];
@@ -59,14 +68,30 @@ const extractOnyxReadingNotesV2 = async (vault: any, settings: OnyxBooxExtractor
 	const referenceInfo: ReferenceNoteDetails = {
 		title,
 		authors,
+		titleSlug: title.replace(/\s/g,'_')
 	};
 	// parse chapters
 	const readingNotesArrayObj = parseChapters(readingNotesArray);
-	const referenceNoteId = await createReferenceNote(vault, settings, referenceInfo);
+	let referenceNoteId;
+	if (templater){
+		referenceNoteId = await createReferenceNoteWithTemplater(app, templater.templater, settings, referenceInfo);
+	} else {
+		referenceNoteId = await createReferenceNote(vault, settings, referenceInfo);
+	}
 	for (const readingNote of readingNotesArrayObj){
-		const noteDetails = parseNote(readingNote);
-		await createZettelNotes(vault, settings, referenceNoteId, referenceInfo, noteDetails);
-		
+		let noteDetails;
+		try {
+			noteDetails = parseNote(readingNote);
+		} catch (e) {
+			console.error('Error parsing note', e, readingNote);
+			continue;
+		}
+
+		if (templater){
+			await createZettelNotesWithTemplater(app, templater.templater, settings, referenceNoteId, referenceInfo, noteDetails);
+		} else {
+			await createZettelNotes(vault, settings, referenceNoteId, referenceInfo, noteDetails);
+		}
 	}
 }
 

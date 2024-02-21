@@ -11,9 +11,65 @@ With this plugin, you can extract your highlights and annotations taken in your 
 
 The main benefit is that you can write your thoughts directly into the book what you currently read, and the plugin will integrate them into your Second Brain. 
 
-## Current note formats:
+## Template Note Formats:
 
-The plugin generated the different notes as follows: 
+The plugin uses the Templater plugin to generate the different notes. If you have Templater installed, the plugin generates the different notes as follows:
+
+### Reference notes: 
+
+```
+---
+Title: {{referenceInfo.title}}
+Authors: {{referenceInfo.authors}}
+---
+
+```
+
+### Literature notes:
+```
+---
+Source: {{referenceInfo.title}}
+Section: {{noteDetails.section}}
+Page Number: {{noteDetails.page}}
+Time: {{noteDetails.isoCreationTime}}
+
+---
+
+
+> {{noteDetails.originalText}}
+
+---
+
+Reference Note: [[{{referenceNote}}]]
+
+---
+```
+
+### Permanent notes: 
+
+```
+---
+
+tags: 
+  - {{referenceInfo.titleSlug}}
+
+---
+
+{{noteDetails.annotation}}
+
+---
+
+_Literature Note_: [[{{literatureNote}}]]
+_Reference Note_: [[{{referenceNote}}]]
+
+---
+
+```
+
+
+## No-Template note formats:
+
+If you do not have Templater installed, the plugin generates the different notes as follows: 
 
 ### Reference notes: 
 
@@ -80,8 +136,9 @@ If you don't want to install Obsidian onto your Onyx Boox device, you can send t
 
 ## Roadmap & Known 'issues'
 
-- The plugin currently generates the files in the root folder of the vault. It can be customized in the upcoming release. 
-- No templates-feature still. It will be added soon.
+- The plugin currently generates the files in the root folder of the vault. It can be customized in the upcoming release.
+  - If you have Templater installed and have assigned templates in the settings, `<% await tp.file.move("/" + tp.file.title) %>` can be used to move the file to the desired folder.
+- The plugin currently does not support the extraction of the highlights and annotations from the PDFs. It can be implemented in the future.
 - Tags in Permanent notes are hardcoded, they can be customized in the future.
 
 ## Feedback, Appreciation, Donation:

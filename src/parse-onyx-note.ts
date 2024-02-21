@@ -19,6 +19,7 @@ const parseNoteV1 = (readingNoteObj: ReadingNoteDetails): ReadingNoteDetails => 
 		originalText: getStringBetween(readingNote,'【Original Text】', '【Annotations】'),
 		annotation: getStringBetween(readingNote, '【Annotations】', '【Page Number】'),
 		page: Number(getStringBetween(readingNote,'【Page Number】', '\n').trim()),
+		isoCreationTime: new Date(getStringBetween(readingNote,'Time：', '【Original Text】').trim()).toISOString()
 	};
 }
 
@@ -36,5 +37,6 @@ const parseNoteV2 = (readingNoteObj: ReadingNoteDetails): ReadingNoteDetails => 
 		originalText: readingNoteLines.join('\n').split('【Note】')[0],
 		annotation: (readingNote.split('【Note】').length > 0) ? readingNote.split('【Note】')[1]: undefined ,
 		page: Number(firstNoteLine.split('Page No.:')[1].trim()),
+		isoCreationTime: new Date(firstNoteLine.split('|')[0].trim()).toISOString()
 	};
 }
